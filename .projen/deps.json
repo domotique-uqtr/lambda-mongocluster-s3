@@ -18,8 +18,22 @@
       "type": "build"
     },
     {
+      "name": "archiver",
+      "version": "5.0.0",
+      "type": "build"
+    },
+    {
       "name": "aws-cdk",
-      "version": "^1.95.2",
+      "version": "^1.133.0",
+      "type": "build"
+    },
+    {
+      "name": "dayjs",
+      "version": "1.8.34",
+      "type": "build"
+    },
+    {
+      "name": "esbuild",
       "type": "build"
     },
     {
@@ -75,12 +89,62 @@
     },
     {
       "name": "@aws-cdk/assert",
-      "version": "^1.95.2",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-ec2",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-ecs",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-events-targets",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-events",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda-event-sources",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda-nodejs",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-s3",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-servicediscovery",
+      "version": "^1.133.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sqs",
+      "version": "^1.133.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.95.2",
+      "version": "^1.133.0",
       "type": "runtime"
     }
   ],

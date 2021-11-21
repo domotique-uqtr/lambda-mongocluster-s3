@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Parameters": Object {
+    "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7ArtifactHash148AF815": Object {
+      "Description": "Artifact hash for asset \\"ac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7\\"",
+      "Type": "String",
+    },
+    "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7S3Bucket221F8D3B": Object {
+      "Description": "S3 bucket for asset \\"ac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7\\"",
+      "Type": "String",
+    },
+    "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7S3VersionKeyA94632E0": Object {
+      "Description": "S3 key for asset version \\"ac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "habilhomeMongoDBBackupLambda9F6BB278": Object {
+      "DependsOn": Array [
+        "habilhomeMongoDBBackupLambdaServiceRoleDefaultPolicy98FDE1FE",
+        "habilhomeMongoDBBackupLambdaServiceRoleE0740638",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7S3Bucket221F8D3B",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7S3VersionKeyA94632E0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersac048517657d0df80a163e651f888d736c469ef4b36f506b689aa3acaba1d5c7S3VersionKeyA94632E0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "MONGODUMP_OPTIONS": "--uri {{resolve:secretsmanager:habilhome/prod/MongoDBAtlas:SecretString:::}}",
+            "NODE_ENV": "production",
+            "S3_BUCKET": Object {
+              "Fn::ImportValue": "habilhome::BucketName",
+            },
+            "ZIP_FILENAME": "habilhome-mongodb-backup",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "habilhomeMongoDBBackupLambdaServiceRoleE0740638",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Tags": Array [
+          Object {
+            "Key": "CostCenter",
+            "Value": "Lachapelle",
+          },
+          Object {
+            "Key": "Maintainer",
+            "Value": "Guillaume Maka",
+          },
+          Object {
+            "Key": "MaintainerEmail",
+            "Value": "guillaume.maka@gmail.com",
+          },
+          Object {
+            "Key": "Project",
+            "Value": "ProjetOntario",
+          },
+        ],
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "habilhomeMongoDBBackupLambdaRule7809CB1D": Object {
+      "Properties": Object {
+        "ScheduleExpression": "rate(90 days)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "habilhomeMongoDBBackupLambda9F6BB278",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "habilhomeMongoDBBackupLambdaRuleAllowEventRuletesthabilhomeMongoDBBackupLambda59DFFA960BBD3A80": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "habilhomeMongoDBBackupLambda9F6BB278",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "habilhomeMongoDBBackupLambdaRule7809CB1D",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "habilhomeMongoDBBackupLambdaServiceRoleDefaultPolicy98FDE1FE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      Object {
+                        "Fn::ImportValue": "habilhome::BucketName",
+                      },
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      Object {
+                        "Fn::ImportValue": "habilhome::BucketName",
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "habilhomeMongoDBBackupLambdaServiceRoleDefaultPolicy98FDE1FE",
+        "Roles": Array [
+          Object {
+            "Ref": "habilhomeMongoDBBackupLambdaServiceRoleE0740638",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "habilhomeMongoDBBackupLambdaServiceRoleE0740638": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "CostCenter",
+            "Value": "Lachapelle",
+          },
+          Object {
+            "Key": "Maintainer",
+            "Value": "Guillaume Maka",
+          },
+          Object {
+            "Key": "MaintainerEmail",
+            "Value": "guillaume.maka@gmail.com",
+          },
+          Object {
+            "Key": "Project",
+            "Value": "ProjetOntario",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
